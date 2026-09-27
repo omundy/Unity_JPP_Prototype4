@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class RotateCamera : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    InputSystem_Actions controls;
+    public float rotationSpeed = 150f;
+
+    void Awake()
     {
-        
+        controls = new InputSystem_Actions();
     }
 
-    // Update is called once per frame
+    void OnEnable()
+    {
+        controls.Player.Enable();
+        // Debug.Log(controls.Player.Move);
+    }
+
     void Update()
     {
-        
+        Vector2 moveInput = controls.Player.Move.ReadValue<Vector2>();
+        float horizontalInput = moveInput.x; // left/right || AD || arrow keys
+        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
     }
 }
